@@ -1,0 +1,47 @@
+# Abstract #
+# Introduction #
+Carl Kingsford and Rob Patro presented an compression method which enabled DNA
+and RNA read sequences to be compressed against a reference genome. The two
+types of schemes generally used for compression were _De Novo_ compression, and
+reference-based compression. The former generally works by restructuring the
+reads or alignments of reads in order to get a higher compression ratio out of
+general purpose compressors. Reference-based compression works by using a
+reference sequence and aligning the reads to that sequence. 
+
+The approach used by Kingsford and Patro is a hybrid approach. They use a
+reference sequence upon which to generate initial probabilities. Using the
+probabilities, they build a De Brujin graph with the reads, and update the
+likelihood of each kmer occuring in the graph for each node. The probabilities
+at each step are used to compress the reads using arithmetic encoding. This
+encoding approach achieves high compression ratios due to the adaptive
+probability scheme. Since each kmer has a unique distribution, some nucleotide
+will have high probabilties at each node in the graph. Encoding a path in the
+graph using the arithmetic encoding allows high probability sequences to be
+reduced to a number that can be represented in fewer bits than the original
+kmer. 
+
+This approach is already a quick approach, achieving compression times similar
+or better than competiting algorithms. Still, compressing sequences around 200
+MB takes around two hours. According to results in the paper, if a large pool of
+memory is available, the compression time can be reduced by up to 40%. This
+statement is where this project attempts to explore. If adding memory reduces
+the overall compression and decompression speeds, then there is a likely a
+portion of the code that can be optimized for space. 
+
+This paper concentrates on the time it takes to compress a FastQ sequence of
+reads which the algorithm splits into heads and tails. The heads are the first
+_k_ base-pairs in each read, and the tail is the remaining part of the read.
+This algorithm, called _KPath_ by the authors, starts by loading the read file,
+it then flips reads according to their heuristic, then simultaneously encodes
+read heads and counts each occurence of head kmers, then finaly encodes the read
+tails using adaptive arithmetic encoding. The execution time of the code largely
+depends on how long it takes to encode the read tails, as the other componenets
+of the algorithm take negligible time compared to it.
+
+In this report, the _KPath_ algorithm will be analyzed and an improvement
+regarding the use of a space-efficient De Brujin graph will allow for reduced
+memory usage. 
+
+# Analysis #
+# Method #
+# Discussion #
